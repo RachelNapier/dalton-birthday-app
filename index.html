@@ -3,16 +3,16 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Dalton // 24 — Night City Uplink • built by Rachel</title>
+    <title>Dalton // 24 - Night City Uplink • built by Rachel</title>
     <meta name="theme-color" content="#0ea5a3" />
     <meta name="description" content="A sweet interactive birthday page for Dalton." />
     <!-- Social preview -->
-    <meta property="og:title" content="Dalton’s Birthday App — built by Rachel">
+    <meta property="og:title" content="Dalton’s Birthday App - built by Rachel">
     <meta property="og:description" content="Open it, play a song, leave notes, and smileツ">
     <meta property="og:image" content="icon-512.png">
     <meta property="og:type" content="website">
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Dalton’s Birthday App — built by Rachel">
+    <meta name="twitter:title" content="Dalton’s Birthday App - built by Rachel">
     <meta name="twitter:description" content="Open it, play a song, leave notes, and smileツ">
     <meta name="twitter:image" content="icon-512.png">
     <!-- Favicon: birthday cake emoji -->
@@ -62,13 +62,13 @@
                 <span className="w-3 h-3 rounded-full bg-cyan-400 animate-pulse" />
                 <span className="uppercase tracking-[0.35em] text-xs text-cyan-300/80">NETRUNNER LINK</span>
               </div>
-              <div className="text-xs text-pink-300/80">v2.6.0 — Birthday Build</div>
+              <div className="text-xs text-pink-300/80">v2.6.0 - Birthday Build</div>
             </div>
 
             <header className="relative z-10 max-w-5xl mx-auto px-6 pb-8 pt-6">
-              <h1 className="text-4xl sm:text-6xl font-black leading-tight">Dalton // 24 — Night City Uplink</h1>
+              <h1 className="text-4xl sm:text-6xl font-black leading-tight">Dalton // 24 - Night City Uplink</h1>
               <p className="mt-3 text-cyan-200/90 max-w-2xl">
-                Happy Birthday, <span className="font-semibold text-white">Dalton!</span> I know this is not much but I hope you like it ♡
+                Happy Birthday, <span className="font-semibold text-white">Dalton!</span> I know this is not much but I hope you like it &hearts;
               </p>
               <div className="mt-6 grid grid-cols-2 sm:grid-cols-4 gap-3">
                 <TimerCard label="Days" value={d} />
@@ -83,7 +83,7 @@
                 <SongEmbed />
               </Panel>
 
-              <Panel title="Birthday Cake" subtitle="24 candles — tap to blow them out">
+              <Panel title="Birthday Cake" subtitle="24 candles - tap to blow them out">
                 <BirthdayCake />
               </Panel>
 
@@ -96,7 +96,7 @@
 
             <footer className="relative z-10 max-w-5xl mx-auto px-6 pb-24 text-center">
               <button onClick={burstHearts} className="px-5 py-3 rounded-2xl border border-white/20 bg-white/5 hover:bg-white/10">
-                Deploy confetti hearts 💜
+                Deploy confetti hearts ♥
               </button>
               <p className="text-xs text-white/50 mt-4">Built by Rachel&lt;𝟑</p>
             </footer>
@@ -234,7 +234,7 @@
             {needsTap && (
               <div className="pointer-events-auto absolute inset-0 flex items-center justify-center">
                 <button onClick={handleTapPlay} className="text-base px-4 py-2 rounded-full bg-black/60 border border-white/20">
-                  Tap to play with sound ▶
+                  Tap to play with sound &#9654;
                 </button>
               </div>
             )}
@@ -287,7 +287,7 @@
             {/* Mobile one-time CTA (hidden after tap) */}
             <div className="tap-to-play pointer-events-auto absolute inset-0 flex items-center justify-center opacity-0 transition-opacity duration-200">
               <button onClick={handleTapPlay} className="text-base px-4 py-2 rounded-full bg-black/60 border border-white/20">
-                Tap to play with sound ▶
+                Tap to play with sound &#9654;
               </button>
             </div>
           </div>
@@ -303,7 +303,7 @@
         React.useEffect(() => {
           if(blownOut === count){
             const t = document.createElement('div');
-            t.textContent = "Make a wish 🎂";
+            t.textContent = "Make a wish &#127874;";
             Object.assign(t.style, {position:'fixed', top:'16px', left:'50%', transform:'translateX(-50%)',
               background:'rgba(0,0,0,.6)', color:'#fff', padding:'8px 12px', borderRadius:'12px', zIndex: 9999});
             document.body.appendChild(t); setTimeout(() => t.remove(), 2000);
@@ -332,7 +332,7 @@
               </div>
               <div className="h-10 bg-[rgba(255,255,255,0.08)] rounded-b-2xl border-x border-b border-white/20" />
             </div>
-            <div className="text-center text-xs text-white/70 mt-3">Tap candles to blow them out — {count - blownOut} left</div>
+            <div className="text-center text-xs text-white/70 mt-3">Tap candles to blow them out - {count - blownOut} left</div>
           </div>
         );
       }
