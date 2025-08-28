@@ -1,4 +1,4 @@
-const CACHE_NAME = 'dalton-bday-v7';
+const CACHE_NAME = 'dalton-bday-v8';
 const ASSETS = [
   './',
   './index.html',

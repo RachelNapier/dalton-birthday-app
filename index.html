@@ -69,7 +69,7 @@
         <span class="w-3 h-3 rounded-full bg-cyan-400 animate-pulse"></span>
         <span class="uppercase tracking-[0.35em] text-xs text-cyan-300/80">NETRUNNER LINK</span>
       </div>
-      <div class="text-xs text-pink-300/80">v3.0.0 — Birthday Build</div>
+      <div class="text-xs text-pink-300/80">v3.1.0 — Birthday Build</div>
     </div>
 
     <!-- Header -->
@@ -101,18 +101,18 @@
     <!-- Main -->
     <main class="relative z-10 max-w-5xl mx-auto px-6 pb-20 grid lg:grid-cols-2 gap-6">
 
-      <!-- Video panel (no header, full-bleed, hidden controls, unmuted attempt) -->
+      <!-- Video panel (full height, hidden controls, unmuted attempt; iframe ignores hover) -->
       <section class="rounded-2xl border border-white/15 bg-white/5 backdrop-blur p-0 overflow-hidden">
-        <div class="relative group" id="video-wrap">
-          <div class="w-full aspect-video">
+        <div class="relative" id="video-wrap">
+          <div class="w-full h-64 sm:h-80 md:h-96 lg:h-[28rem]">
             <iframe id="yt"
-              class="w-full h-full"
-              src="https://www.youtube.com/embed/sZj0_WHcc8o?autoplay=1&mute=0&playsinline=1&rel=0&controls=0&modestbranding=1&iv_load_policy=3&enablejsapi=1&start=1"
+              class="w-full h-full pointer-events-none"
+              src="https://www.youtube.com/embed/sZj0_WHcc8o?autoplay=1&mute=0&playsinline=1&rel=0&controls=0&modestbranding=1&iv_load_policy=3&enablejsapi=1&start=1&showinfo=0&autohide=1"
               title="YouTube player"
               allow="autoplay; accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
               allowfullscreen></iframe>
           </div>
-          <!-- Single mute/unmute pill (appears for ~2s on interaction) -->
+          <!-- Single mute/unmute pill (appears briefly on interaction) -->
           <button id="muteToggle"
             class="pointer-events-auto absolute bottom-3 right-3 text-xs px-3 py-1 rounded-full bg-black/60 border border-white/20 opacity-0 transition-opacity">
             Mute 🔇
@@ -151,7 +151,7 @@
 
           <div class="space-y-3">
             <div class="flex gap-2">
-              <input id="noteInput" placeholder="Type a memory, joke, or msg..." class="flex-1 bg-black/60 border border-fuchsia-500/40 rounded-xl px-3 py-2 focus:outline-none focus:ring-2 focus:ring-fuchsia-400"/>
+              <input id="noteInput" placeholder="Memories or notes" class="flex-1 bg-black/60 border border-fuchsia-500/40 rounded-xl px-3 py-2 focus:outline-none focus:ring-2 focus:ring-fuchsia-400"/>
               <button id="noteAdd" class="px-4 py-2 rounded-xl bg-fuchsia-500/20 border border-fuchsia-400 hover:bg-fuchsia-500/30">Add</button>
             </div>
             <ul id="noteList" class="space-y-2 max-h-60 overflow-auto pr-2"></ul>
