@@ -140,6 +140,11 @@
       <div class="text-white/90">For installing on iPhone, please open in <b>Safari</b> first.</div>
       <div class="text-white/60 text-xs mt-1">In Discord: tap ••• → <b>Open in Safari</b> → Share → <b>Add to Home Screen</b>.</div>
     </div>
+    <!-- Install FAB (shows when installable) -->
+    <button id="installFAB" class="hidden fixed bottom-4 left-4 z-50 rounded-full border border-white/20 bg-black/70 backdrop-blur px-4 py-2 text-sm">
+      Install app
+    </button>
+
   </div>
 
   <script>
@@ -225,6 +230,44 @@
       ['mousemove','touchstart'].forEach(evt=>wrap.addEventListener(evt,()=>revealToggle(false),{passive:true}));
       tapPrompt.addEventListener('click',()=>{ if(!player) return; try{player.unMute(); muted=false;}catch(e){muted=true;} try{player.playVideo();}catch(e){} toggle.textContent=muted?'Sound on ▶':'Mute 🔇'; if(!muted) hidePrompt(); });
     })();
+
+    
+    // --- PWA Install (Android) + iOS fallback ---
+    (function(){
+      const fab = document.getElementById('installFAB');
+      const tip = document.getElementById('installTip');
+      let deferredPrompt = null;
+
+      // Hide FAB if already installed
+      const isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
+      if (isStandalone) { fab.classList.add('hidden'); }
+
+      window.addEventListener('beforeinstallprompt', (e) => {
+        e.preventDefault();
+        deferredPrompt = e;
+        fab.classList.remove('hidden');
+      });
+
+      window.addEventListener('appinstalled', () => {
+        fab.classList.add('hidden');
+      });
+
+      fab.addEventListener('click', async () => {
+        // If we have a deferred prompt, we're on Android/desktop that supports it
+        if (deferredPrompt) {
+          deferredPrompt.prompt();
+          try { await deferredPrompt.userChoice; } catch(e) {}
+          deferredPrompt = null;
+          fab.classList.add('hidden');
+          return;
+        }
+        // iOS fallback: show the install instructions tip
+        if (tip) {
+          tip.classList.remove('hidden');
+        }
+      });
+    })();
+
 
     // Register service worker
     if ('serviceWorker' in navigator){ window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js')); }
