@@ -6,8 +6,6 @@
   <title>Dalton // 24 — Night City Uplink • built by Rachel</title>
   <meta name="theme-color" content="#0ea5a3" />
   <meta name="description" content="A sweet interactive birthday page for Dalton." />
-
-  <!-- Social preview -->
   <meta property="og:title" content="Dalton’s Birthday App — built by Rachel">
   <meta property="og:description" content="Open it, play a song, leave notes, and smileツ">
   <meta property="og:image" content="icon-512.png">
@@ -16,63 +14,45 @@
   <meta name="twitter:title" content="Dalton’s Birthday App — built by Rachel">
   <meta name="twitter:description" content="Open it, play a song, leave notes, and smileツ">
   <meta name="twitter:image" content="icon-512.png">
-
-  <!-- Favicon: birthday cake emoji -->
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%8E%82%3C/text%3E%3C/svg%3E" />
-
-  <!-- Tailwind CSS (CDN) -->
   <script src="https://cdn.tailwindcss.com"></script>
-
   <link rel="manifest" href="manifest.webmanifest">
   <link rel="apple-touch-icon" href="icon-180.png">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
-
   <style>
-    .neon-bg {
-      position: absolute; inset: 0; pointer-events: none;
-      background-image:
-        radial-gradient(circle at 30% 20%, rgba(0,255,255,.25), transparent 40%),
-        radial-gradient(circle at 70% 30%, rgba(255,0,128,.18), transparent 40%),
-        radial-gradient(circle at 50% 80%, rgba(255,255,0,.12), transparent 50%);
-    }
-    .grid-overlay {
-      position: absolute; inset: 0; opacity: .2; pointer-events: none;
-      background-image:
-        linear-gradient(rgba(255,255,255,.08) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(255,255,255,.08) 1px, transparent 1px);
-      background-size: 48px 48px;
-    }
-    .scanline { position: absolute; inset: 0; mix-blend-mode: overlay; pointer-events: none;
-      background-image: repeating-linear-gradient(0deg, rgba(255,255,255,.05), rgba(255,255,255,.05) 1px, transparent 1px, transparent 3px);
-    }
-    .heart-particle { position: absolute; bottom: 80px; width: 12px; height: 12px; transform: translate(-50%, 0) rotate(45deg);
-      background: linear-gradient(135deg, #ff7ad9, #00f0ff); animation: heartFloat 2.2s ease-out forwards;
-      box-shadow: 0 0 10px rgba(255,122,217,.6), 0 0 16px rgba(0,240,255,.4); }
-    .heart-particle::before, .heart-particle::after { content: ""; position: absolute; width: 12px; height: 12px; background: inherit; border-radius: 50%; }
-    .heart-particle::before { left: -6px; } .heart-particle::after { top: -6px; }
-    @keyframes heartFloat { 0% { opacity:1; transform: translate(var(--x, -50%), 0) rotate(45deg);} 100% { opacity:0; transform: translate(calc(var(--x, -50%) + var(--tx)), var(--ty)) rotate(45deg);} }
-    @keyframes flicker { 0%, 100% { opacity: 1; transform: translateY(0);} 50% { opacity: .7; transform: translateY(-1px);} }
-    .btn-ghost { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.2); border-radius: 1rem; padding: .75rem 1.25rem; }
+    .neon-bg{position:absolute;inset:0;pointer-events:none;background-image:
+      radial-gradient(circle at 30% 20%, rgba(0,255,255,.25), transparent 40%),
+      radial-gradient(circle at 70% 30%, rgba(255,0,128,.18), transparent 40%),
+      radial-gradient(circle at 50% 80%, rgba(255,255,0,.12), transparent 50%);}
+    .grid-overlay{position:absolute;inset:0;opacity:.2;pointer-events:none;background-image:
+      linear-gradient(rgba(255,255,255,.08) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,.08) 1px, transparent 1px);background-size:48px 48px;}
+    .scanline{position:absolute;inset:0;mix-blend-mode:overlay;pointer-events:none;background-image:
+      repeating-linear-gradient(0deg, rgba(255,255,255,.05), rgba(255,255,255,.05) 1px, transparent 1px, transparent 3px);}
+    .heart-particle{position:absolute;bottom:80px;width:12px;height:12px;transform:translate(-50%,0) rotate(45deg);
+      background:linear-gradient(135deg,#ff7ad9,#00f0ff);animation:heartFloat 2.2s ease-out forwards;
+      box-shadow:0 0 10px rgba(255,122,217,.6),0 0 16px rgba(0,240,255,.4)}
+    .heart-particle::before,.heart-particle::after{content:"";position:absolute;width:12px;height:12px;background:inherit;border-radius:50%}
+    .heart-particle::before{left:-6px}.heart-particle::after{top:-6px}
+    @keyframes heartFloat{0%{opacity:1;transform:translate(var(--x,-50%),0) rotate(45deg)}100%{opacity:0;transform:translate(calc(var(--x,-50%)+var(--tx)),var(--ty)) rotate(45deg)}}
+    @keyframes flicker{0%,100%{opacity:1;transform:translateY(0)}50%{opacity:.7;transform:translateY(-1px)}}
+    .btn-ghost{background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.2);border-radius:1rem;padding:.75rem 1.25rem}
   </style>
 </head>
 <body class="min-h-screen bg-black text-white">
   <div id="app" class="relative min-h-screen">
-    <div class="neon-bg"></div>
-    <div class="grid-overlay"></div>
-    <div class="scanline"></div>
+    <div class="neon-bg"></div><div class="grid-overlay"></div><div class="scanline"></div>
 
-    <!-- Top bar -->
     <div class="relative z-10 max-w-5xl mx-auto px-6 pt-10 flex items-center justify-between">
       <div class="flex items-center gap-3">
         <span class="w-3 h-3 rounded-full bg-cyan-400 animate-pulse"></span>
         <span class="uppercase tracking-[0.35em] text-xs text-cyan-300/80">NETRUNNER LINK</span>
       </div>
-      <div class="text-xs text-pink-300/80">v3.1.0 — Birthday Build</div>
+      <div class="text-xs text-pink-300/80">v3.2.0 — Birthday Build</div>
     </div>
 
-    <!-- Header -->
     <header class="relative z-10 max-w-5xl mx-auto px-6 pb-8 pt-6">
       <h1 class="text-4xl sm:text-6xl font-black leading-tight">Dalton // 24 — Night City Uplink</h1>
       <p class="mt-3 text-cyan-200/90 max-w-2xl">
@@ -98,54 +78,48 @@
       </div>
     </header>
 
-    <!-- Main -->
     <main class="relative z-10 max-w-5xl mx-auto px-6 pb-20 grid lg:grid-cols-2 gap-6">
-
-      <!-- Video panel (API-driven, full height, hidden controls, unmuted attempt; overlay shields hover title) -->
+      <!-- Video panel (muted autoplay guaranteed; one tap for sound; hover UI hidden) -->
       <section class="rounded-2xl border border-white/15 bg-white/5 backdrop-blur p-0 overflow-hidden">
         <div class="relative" id="video-wrap">
           <div class="w-full h-64 sm:h-80 md:h-96 lg:h-[28rem] relative">
             <div id="yt" class="absolute inset-0"></div>
-            <!-- Transparent shield to hide hover title; also captures clicks to (un)mute/play -->
             <button id="hoverShield" class="absolute inset-0" aria-label="Video shield"></button>
           </div>
-          <!-- Single mute/unmute pill (appears briefly on interaction) -->
           <button id="muteToggle"
             class="pointer-events-auto absolute bottom-3 right-3 text-xs px-3 py-1 rounded-full bg-black/60 border border-white/20 opacity-0 transition-opacity">
-            Mute 🔇
+            Sound on ▶
           </button>
-          <!-- Mobile one-time center prompt if needed -->
           <div id="tapPrompt" class="pointer-events-auto hidden absolute inset-0 items-center justify-center">
             <button class="text-base px-4 py-2 rounded-full bg-black/60 border border-white/20">Tap to play with sound &#9654;</button>
           </div>
         </div>
       </section>
 
-      <!-- Birthday cake with 24 candles -->
+      <!-- Birthday cake: taller/centered -->
       <section class="rounded-2xl border border-white/15 bg-white/5 backdrop-blur p-5">
         <div class="mb-4">
           <h2 class="text-xl font-bold tracking-wide text-white/90">Birthday Cake</h2>
           <p class="text-xs text-white/60">24 candles — tap to blow them out</p>
         </div>
-        <div class="rounded-2xl p-6 bg-white/5 border border-white/10">
-          <div class="mx-auto w-full max-w-2xl">
-            <div class="h-48 bg-gradient-to-b from-fuchsia-500/40 to-cyan-500/30 rounded-t-2xl border-x border-t border-white/20 relative overflow-hidden">
-              <div id="candles" class="absolute inset-0 flex flex-col justify-center gap-3 px-6"></div>
+        <div class="rounded-2xl p-6 bg-white/5 border border-white/10 flex items-center justify-center">
+          <div class="mx-auto w-full max-w-xl">
+            <div class="h-40 bg-gradient-to-b from-fuchsia-500/40 to-cyan-500/30 rounded-t-2xl border-x border-t border-white/20 relative overflow-hidden">
+              <div id="candles" class="absolute inset-0 flex flex-col justify-center gap-4 px-6"></div>
             </div>
             <div class="h-16 bg-[rgba(255,255,255,0.08)] rounded-b-2xl border-x border-b border-white/20"></div>
           </div>
-          <div id="candlesLeft" class="text-center text-xs text-white/70 mt-3">Tap candles to blow them out — 24 left</div>
-        </div>
+          </div>
+        <div id="candlesLeft" class="text-center text-xs text-white/70 mt-3">Tap candles to blow them out — 24 left</div>
       </section>
 
-      <!-- Memory board (full width, at bottom) -->
+      <!-- Memory board -->
       <div class="lg:col-span-2">
         <section class="rounded-2xl border border-white/15 bg-white/5 backdrop-blur p-5">
           <div class="mb-4">
             <h2 class="text-xl font-bold tracking-wide text-white/90">Memory Shards</h2>
             <p class="text-xs text-white/60">Save little moments here</p>
           </div>
-
           <div class="space-y-3">
             <div class="flex gap-2">
               <input id="noteInput" placeholder="Memories or notes" class="flex-1 bg-black/60 border border-fuchsia-500/40 rounded-xl px-3 py-2 focus:outline-none focus:ring-2 focus:ring-fuchsia-400"/>
@@ -157,13 +131,11 @@
       </div>
     </main>
 
-    <!-- Footer -->
     <footer class="relative z-10 max-w-5xl mx-auto px-6 pb-24 text-center">
       <button id="confetti" class="btn-ghost hover:bg-white/10">Deploy confetti hearts ♥</button>
       <p class="text-xs text-white/50 mt-4">Built by Rachel&lt;𝟑</p>
     </footer>
 
-    <!-- Install tip (Discord on iOS) -->
     <div id="installTip" class="hidden fixed bottom-3 left-1/2 -translate-x-1/2 z-50 max-w-[90%] rounded-2xl border border-white/20 bg-black/80 backdrop-blur px-4 py-3 text-sm">
       <div class="text-white/90">For installing on iPhone, please open in <b>Safari</b> first.</div>
       <div class="text-white/60 text-xs mt-1">In Discord: tap ••• → <b>Open in Safari</b> → Share → <b>Add to Home Screen</b>.</div>
@@ -171,29 +143,22 @@
   </div>
 
   <script>
-    // --- Countdown ---
+    // Countdown
     (function(){
       const BDAY = new Date("2025-08-28T00:00:00");
-      const $d = document.getElementById('t-days');
-      const $h = document.getElementById('t-hours');
-      const $m = document.getElementById('t-mins');
-      const $s = document.getElementById('t-secs');
+      const $d = document.getElementById('t-days'), $h = document.getElementById('t-hours'), $m = document.getElementById('t-mins'), $s = document.getElementById('t-secs');
       function tick(){
-        const now = new Date().getTime();
-        const diff = Math.max(0, BDAY.getTime() - now);
+        const now = Date.now(), diff = Math.max(0, BDAY.getTime() - now);
         const d = Math.floor(diff / (1000*60*60*24));
         const h = Math.floor((diff / (1000*60*60)) % 24);
         const m = Math.floor((diff / (1000*60)) % 60);
         const s = Math.floor((diff / 1000) % 60);
-        $d.textContent = String(d).padStart(2,'0');
-        $h.textContent = String(h).padStart(2,'0');
-        $m.textContent = String(m).padStart(2,'0');
-        $s.textContent = String(s).padStart(2,'0');
+        $d.textContent = String(d).padStart(2,'0'); $h.textContent = String(h).padStart(2,'0'); $m.textContent = String(m).padStart(2,'0'); $s.textContent = String(s).padStart(2,'0');
       }
       tick(); setInterval(tick, 1000);
     })();
 
-    // --- Confetti hearts ---
+    // Confetti hearts
     (function(){
       const app = document.getElementById('app');
       document.getElementById('confetti').addEventListener('click', () => {
@@ -203,258 +168,67 @@
           h.style.left = Math.random()*100 + '%';
           h.style.setProperty('--tx', (Math.random()*100-50).toFixed(0)+'px');
           h.style.setProperty('--ty', (-(Math.random()*140+60)).toFixed(0)+'px');
-          app.appendChild(h);
-          setTimeout(() => h.remove(), 2200);
+          app.appendChild(h); setTimeout(() => h.remove(), 2200);
         }
       });
     })();
 
-    // --- Memory board (localStorage) ---
+    // Memory board
     (function(){
-      const KEY = 'dalton-notes';
-      const $input = document.getElementById('noteInput');
-      const $add = document.getElementById('noteAdd');
-      const $list = document.getElementById('noteList');
-      let notes = [];
-      try { notes = JSON.parse(localStorage.getItem(KEY) || '[]'); } catch(e){ notes = []; }
+      const KEY='dalton-notes', $input=document.getElementById('noteInput'), $add=document.getElementById('noteAdd'), $list=document.getElementById('noteList');
+      let notes=[]; try{notes=JSON.parse(localStorage.getItem(KEY)||'[]')}catch(e){notes=[]}
       function render(){
-        $list.innerHTML = '';
-        notes.forEach(n => {
-          const li = document.createElement('li');
-          li.className = 'group p-3 rounded-xl bg-white/5 border border-white/10 hover:bg-white/10 transition';
-          const text = document.createElement('div');
-          text.className = 'text-sm text-white/90'; text.textContent = n.text;
-          const when = document.createElement('div');
-          when.className = 'text-[10px] text-white/50 mt-1'; when.textContent = n.when;
-          const del = document.createElement('button');
-          del.textContent = 'delete'; del.className = 'opacity-0 group-hover:opacity-100 text-[10px] text-red-300 mt-1';
-          del.addEventListener('click', () => { notes = notes.filter(x => x.id !== n.id); save(); render(); });
-          li.appendChild(text); li.appendChild(when); li.appendChild(del);
-          $list.appendChild(li);
-        });
+        $list.innerHTML=''; notes.forEach(n=>{ const li=document.createElement('li'); li.className='group p-3 rounded-xl bg-white/5 border border-white/10 hover:bg-white/10 transition';
+          const t=document.createElement('div'); t.className='text-sm text-white/90'; t.textContent=n.text;
+          const w=document.createElement('div'); w.className='text-[10px] text-white/50 mt-1'; w.textContent=n.when;
+          const d=document.createElement('button'); d.textContent='delete'; d.className='opacity-0 group-hover:opacity-100 text-[10px] text-red-300 mt-1';
+          d.addEventListener('click',()=>{notes=notes.filter(x=>x.id!==n.id); save(); render();}); li.appendChild(t); li.appendChild(w); li.appendChild(d); $list.appendChild(li); });
       }
       function save(){ localStorage.setItem(KEY, JSON.stringify(notes)); }
-      $add.addEventListener('click', () => {
-        const t = ($input.value || '').trim(); if(!t) return;
-        notes = [{ id: Date.now(), text: t, when: new Date().toLocaleString() }, ...notes];
-        $input.value=''; save(); render();
-        document.getElementById('confetti').click();
-      });
+      $add.addEventListener('click',()=>{ const t=($input.value||'').trim(); if(!t) return; notes=[{id:Date.now(),text:t,when:new Date().toLocaleString()},...notes]; $input.value=''; save(); render(); document.getElementById('confetti').click();});
       render();
     })();
 
-    // --- 24 candles ---
+    // 24 candles (taller & centered gaps)
     (function(){
-      const rows = [8,8,8], count = 24;
-      const $candles = document.getElementById('candles');
-      const $left = document.getElementById('candlesLeft');
-      let blown = Array.from({length: count}, () => false);
-      let idx = 0;
-      rows.forEach((n,r) => {
-        const row = document.createElement('div');
-        row.className = 'flex justify-center gap-3';
-        for(let j=0;j<n;j++){
-          const i = idx++;
-          const wrap = document.createElement('div');
-          wrap.className = 'flex flex-col items-center select-none cursor-pointer';
-          const stick = document.createElement('div');
-          stick.className = 'w-1 h-4 bg-white rounded-t-sm';
-          const flame = document.createElement('div');
-          flame.className = ' -mt-1 w-2 h-2 rounded-full bg-amber-300'; flame.style.animation = 'flicker 1s ease infinite';
-          function update(){
-            const on = !blown[i];
-            stick.style.opacity = on ? '1' : '.6';
-            flame.style.background = on ? 'rgb(252 211 77)' : 'transparent';
-            flame.style.animation = on ? 'flicker 1s ease infinite' : 'none';
-          }
-          wrap.addEventListener('click', () => {
-            blown[i] = !blown[i]; update();
-            const left = blown.filter(x => !x).length;
-            $left.textContent = 'Tap candles to blow them out — ' + left + ' left';
-            if(left === 0){
-              const t = document.createElement('div');
-              t.textContent = 'Make a wish 🎂';
-              Object.assign(t.style, {position:'fixed', top:'16px', left:'50%', transform:'translateX(-50%)',
-                background:'rgba(0,0,0,.6)', color:'#fff', padding:'8px 12px', borderRadius:'12px', zIndex: 9999});
-              document.body.appendChild(t); setTimeout(() => t.remove(), 2000);
-            }
-          });
-          update();
-          wrap.appendChild(stick); wrap.appendChild(flame); row.appendChild(wrap);
-        }
-        $candles.appendChild(row);
-      });
+      const rows=[8,8,8], count=24, $candles=document.getElementById('candles'), $left=document.getElementById('candlesLeft');
+      let blown=Array.from({length:count},()=>false), idx=0;
+      rows.forEach(n=>{ const row=document.createElement('div'); row.className='flex justify-center gap-4';
+        for(let j=0;j<n;j++){ const i=idx++; const wrap=document.createElement('div'); wrap.className='flex flex-col items-center select-none cursor-pointer';
+          const stick=document.createElement('div'); stick.className='w-1 h-5 bg-white rounded-t-sm';
+          const flame=document.createElement('div'); flame.className='-mt-1 w-2 h-2 rounded-full bg-amber-300'; flame.style.animation='flicker 1s ease infinite';
+          function update(){ const on=!blown[i]; stick.style.opacity=on?'1':'.6'; flame.style.background=on?'rgb(252 211 77)':'transparent'; flame.style.animation=on?'flicker 1s ease infinite':'none'; }
+          wrap.addEventListener('click',()=>{ blown[i]=!blown[i]; update(); const left=blown.filter(x=>!x).length; $left.textContent='Tap candles to blow them out — '+left+' left'; if(left===0){ const t=document.createElement('div'); t.textContent='Make a wish 🎂'; Object.assign(t.style,{position:'fixed',top:'16px',left:'50%',transform:'translateX(-50%)',background:'rgba(0,0,0,.6)',color:'#fff',padding:'8px 12px',borderRadius:'12px',zIndex:9999}); document.body.appendChild(t); setTimeout(()=>t.remove(),2000);} });
+          update(); wrap.appendChild(stick); wrap.appendChild(flame); row.appendChild(wrap); }
+        $candles.appendChild(row); });
     })();
 
-    // --- Discord/iOS tip ---
+    // Install tip for Discord/iOS
     (function(){
-      const isIOS = /iPhone|iPad|iPod/i.test(navigator.userAgent);
-      const isDiscord = /Discord/i.test(navigator.userAgent);
-      const isInApp = isDiscord || /FBAN|FBAV|Instagram|Line\//i.test(navigator.userAgent);
-      if(isIOS && isInApp){
-        const tip = document.getElementById('installTip');
-        tip.classList.remove('hidden');
-      }
+      const isIOS=/iPhone|iPad|iPod/i.test(navigator.userAgent), isDiscord=/Discord/i.test(navigator.userAgent), isInApp=isDiscord||/FBAN|FBAV|Instagram|Line\//i.test(navigator.userAgent);
+      if(isIOS&&isInApp){ const tip=document.getElementById('installTip'); tip.classList.remove('hidden'); }
     })();
 
-    // --- YouTube Iframe API (autoplay with sound attempt; fallback to user tap) ---
+    // YouTube IFrame API: guaranteed muted autoplay; single tap/click enables sound; shield hides hover UI
     (function(){
-      var player;
-      var wrap = document.getElementById('video-wrap');
-      var tapPrompt = document.getElementById('tapPrompt');
-
-      function showPrompt(){
-        tapPrompt.classList.remove('hidden');
-        tapPrompt.classList.add('flex');
-      }
-      function hidePrompt(){
-        tapPrompt.classList.add('hidden');
-        tapPrompt.classList.remove('flex');
-      }
-
-      // Load API
-      var tag = document.createElement('script');
-      tag.src = "https://www.youtube.com/iframe_api";
-      document.body.appendChild(tag);
-
-      window.onYouTubeIframeAPIReady = function(){
-        player = new YT.Player('player', {
-          width: '100%',
-          height: '100%',
-          videoId: 'sZj0_WHcc8o',
-          playerVars: {
-            autoplay: 1,
-            mute: 0,
-            controls: 0,
-            rel: 0,
-            modestbranding: 1,
-            iv_load_policy: 3,
-            playsinline: 1,
-            start: 1
-          },
-          events: {
-            'onReady': function(){
-              try { player.unMute(); } catch(e){}
-              try { player.playVideo(); } catch(e){}
-              // Check after a moment whether playback started; if not, require a tap
-              setTimeout(function(){
-                var state = player.getPlayerState ? player.getPlayerState() : -1;
-                if (state !== 1) { // not playing
-                  showPrompt();
-                }
-              }, 1200);
-            }
-          }
-        });
-      };
-
-      // Tap to play with sound
-      tapPrompt.addEventListener('click', function(){
-        try { player.unMute(); } catch(e){}
-        try { player.playVideo(); } catch(e){}
-        hidePrompt();
-      });
+      const wrap=document.getElementById('video-wrap'), shield=document.getElementById('hoverShield'), toggle=document.getElementById('muteToggle'), tapPrompt=document.getElementById('tapPrompt');
+      let player=null, hideTimer=null, muted=true;
+      function revealToggle(initial=false){ toggle.style.opacity='1'; if(hideTimer) clearTimeout(hideTimer); hideTimer=setTimeout(()=>{toggle.style.opacity='0';}, initial?4000:2000); }
+      function showPrompt(){ tapPrompt.classList.remove('hidden'); tapPrompt.classList.add('flex'); }
+      function hidePrompt(){ tapPrompt.classList.add('hidden'); tapPrompt.classList.remove('flex'); }
+      function isIOS(){ return /iPhone|iPad|iPod/i.test(navigator.userAgent); }
+      window.onYouTubeIframeAPIReady=function(){ player=new YT.Player('yt',{height:'100%',width:'100%',videoId:'sZj0_WHcc8o',playerVars:{autoplay:1,controls:0,mute:1,playsinline:1,modestbranding:1,rel:0,start:1,iv_load_policy:3},events:{'onReady':onReady,'onStateChange':onStateChange}}); };
+      function onReady(){ try{player.mute();}catch(e){} try{player.playVideo();}catch(e){} toggle.textContent='Sound on ▶'; revealToggle(true); if(isIOS()) showPrompt(); }
+      function onStateChange(e){ if(e.data===YT.PlayerState.PLAYING){ try{muted=player.isMuted();}catch(e){muted=true;} toggle.textContent=muted?'Sound on ▶':'Mute 🔇'; hidePrompt(); } }
+      toggle.addEventListener('click',(ev)=>{ ev.stopPropagation(); if(!player) return; if(muted){ try{player.unMute(); muted=false;}catch(e){muted=true;} if(muted) showPrompt(); else hidePrompt(); } else { try{player.mute(); muted=true;}catch(e){} } toggle.textContent=muted?'Sound on ▶':'Mute 🔇'; revealToggle(); });
+      shield.addEventListener('click',()=>{ if(!player) return; try{player.unMute(); muted=false;}catch(e){muted=true;} try{player.playVideo();}catch(e){} toggle.textContent=muted?'Sound on ▶':'Mute 🔇'; if(!muted) hidePrompt(); revealToggle(); });
+      ['mousemove','touchstart'].forEach(evt=>wrap.addEventListener(evt,()=>revealToggle(false),{passive:true}));
+      tapPrompt.addEventListener('click',()=>{ if(!player) return; try{player.unMute(); muted=false;}catch(e){muted=true;} try{player.playVideo();}catch(e){} toggle.textContent=muted?'Sound on ▶':'Mute 🔇'; if(!muted) hidePrompt(); });
     })();
 
-    // --- Service worker ---
-    if ('serviceWorker' in navigator) {
-      window.addEventListener('load', () => navigator.serviceWorker.register('./sw.js'));
-    }
+    // Register service worker
+    if ('serviceWorker' in navigator){ window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js')); }
   </script>
-
   <script src="https://www.youtube.com/iframe_api"></script>
-  <script>
-    (function(){
-      const wrap = document.getElementById('video-wrap');
-      const shield = document.getElementById('hoverShield');
-      const toggle = document.getElementById('muteToggle');
-      const tapPrompt = document.getElementById('tapPrompt');
-
-      let player = null;
-      let hideTimer = null;
-      let muted = false;
-      let triedAuto = false;
-
-      function revealToggle(){
-        toggle.style.opacity = '1';
-        if(hideTimer) clearTimeout(hideTimer);
-        hideTimer = setTimeout(() => { toggle.style.opacity = '0'; }, 2000);
-      }
-      function showPrompt(){
-        tapPrompt.classList.remove('hidden');
-        tapPrompt.classList.add('flex');
-      }
-      function hidePrompt(){
-        tapPrompt.classList.add('hidden');
-        tapPrompt.classList.remove('flex');
-      }
-
-      window.onYouTubeIframeAPIReady = function(){
-        player = new YT.Player('yt', {
-          height: '100%',
-          width: '100%',
-          videoId: 'sZj0_WHcc8o',
-          playerVars: {
-            autoplay: 1, controls: 0, mute: 0, playsinline: 1, modestbranding: 1, rel: 0, start: 1, iv_load_policy: 3
-          },
-          events: {
-            'onReady': onReady,
-            'onStateChange': onStateChange
-          }
-        });
-      };
-
-      function onReady(){
-        // Try unmuted autoplay
-        try { player.unMute(); } catch(e){}
-        try { player.playVideo(); } catch(e){}
-        triedAuto = true;
-        // After a short delay, if not playing, show the prompt
-        setTimeout(() => {
-          if (!player) return;
-          const st = player.getPlayerState();
-          if (st !== YT.PlayerState.PLAYING) {
-            showPrompt();
-          }
-        }, 800);
-      }
-
-      function onStateChange(e){
-        // If it started playing, hide the prompt
-        if (e.data === YT.PlayerState.PLAYING) {
-          hidePrompt();
-        }
-      }
-
-      toggle.addEventListener('click', (e) => {
-        e.stopPropagation();
-        if (!player) return;
-        if (muted) { player.unMute(); muted = false; toggle.textContent = 'Mute 🔇'; }
-        else { player.mute(); muted = true; toggle.textContent = 'Unmute 🔊'; }
-        revealToggle();
-      });
-
-      // Reveal toggle briefly on interaction
-      ['mousemove','touchstart'].forEach(evt => wrap.addEventListener(evt, revealToggle, {passive:true}));
-
-      // Shield captures clicks to start playback with sound (also hides YouTube hover title)
-      shield.addEventListener('click', () => {
-        if (!player) return;
-        try { player.unMute(); } catch(e){}
-        try { player.playVideo(); } catch(e){}
-        hidePrompt();
-        revealToggle();
-      });
-
-      // Tap prompt explicit start
-      tapPrompt.addEventListener('click', () => {
-        if (!player) return;
-        try { player.unMute(); } catch(e){}
-        try { player.playVideo(); } catch(e){}
-        hidePrompt();
-      });
-    })();
-  </script>
-
 </body>
 </html>
