@@ -79,7 +79,7 @@
             </header>
 
             <main className="relative z-10 max-w-5xl mx-auto px-6 pb-20 grid lg:grid-cols-2 gap-6">
-              <Panel title="Song Player" subtitle="Auto‑plays when set (muted on mobile)">
+              <Panel>
                 <SongEmbed />
               </Panel>
 
@@ -107,10 +107,12 @@
       function Panel({ title, subtitle, children }){
         return (
           <section className="rounded-2xl border border-white/15 bg-white/5 backdrop-blur p-5">
-            <div className="mb-4">
-              <h2 className="text-xl font-bold tracking-wide text-white/90">{title}</h2>
-              {subtitle && <p className="text-xs text-white/60">{subtitle}</p>}
-            </div>
+            {(title || subtitle) && (
+              <div className="mb-4">
+                {title && <h2 className="text-xl font-bold tracking-wide text-white/90">{title}</h2>}
+                {subtitle && <p className="text-xs text-white/60">{subtitle}</p>}
+              </div>
+            )}
             {children}
           </section>
         );
@@ -156,27 +158,83 @@
           return /^[a-zA-Z0-9_-]{11}$/.test(url) ? url : "";
         }
       }
+      
       function SongEmbed(){
         const DEFAULT_ID = 'sZj0_WHcc8o'; // baked-in link
         const sp = new URLSearchParams(window.location.search);
-        // Optional override via ?yt=VIDEO_ID or full URL
         const override = sp.get("yt");
-        let id = getYouTubeIdFromUrl(override) || DEFAULT_ID;
-        // Persist current choice so reloads keep it (unless a new ?yt= is provided)
-        try { localStorage.setItem("dalton-yt", id); } catch(e) {}
-        const src = `https://www.youtube.com/embed/${id}?autoplay=1&mute=1&playsinline=1&rel=0&start=1`;
+        const id = getYouTubeIdFromUrl(override) || DEFAULT_ID;
+        const iframeRef = React.useRef(null);
+        const [muted, setMuted] = React.useState(false);
+        const [playing, setPlaying] = React.useState(true);
+
+        // Build embed URL: try unmuted autoplay; mobile may block until user interaction
+        const src = `https://www.youtube.com/embed/${id}?autoplay=1&mute=0&playsinline=1&rel=0&controls=0&modestbranding=1&iv_load_policy=3&enablejsapi=1&start=1`;
+
+        // Helper to send postMessage commands to the YouTube iframe
+        function yt(cmd){
+          const iframe = iframeRef.current;
+          if(!iframe) return;
+          try {
+            iframe.contentWindow.postMessage(JSON.stringify({ event: 'command', func: cmd, args: [] }), '*');
+          } catch(e){}
+        }
+        function play(){ yt('playVideo'); setPlaying(true); }
+        function pause(){ yt('pauseVideo'); setPlaying(false); }
+        function mute(){ yt('mute'); setMuted(true); }
+        function unmute(){ yt('unMute'); setMuted(false); }
+
+        // On first interaction on touch devices, ensure unmuted playback
+        function handleTapPlay(){
+          unmute();
+          play();
+        }
+
         return (
-          <div className="aspect-video rounded-2xl overflow-hidden border border-pink-500/30">
-            <iframe
-              className="w-full h-full"
-              src={src}
-              title="YouTube player"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-              allowFullScreen
-            />
+          <div className="song-wrap relative rounded-2xl overflow-hidden border border-pink-500/30">
+            <div className="w-full aspect-video">
+              <iframe
+                ref={iframeRef}
+                className="w-full h-full"
+                src={src}
+                title="YouTube player"
+                allow="autoplay; accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                allowFullScreen
+              />
+            </div>
+
+            {/* Hover/touch overlay controls (hidden until hover on devices that support hover) */}
+            <div className="pointer-events-none absolute inset-0 flex items-center justify-center opacity-0 transition-opacity duration-200 overlay-controls">
+              <div className="pointer-events-auto flex items-center gap-3 bg-black/50 rounded-full px-4 py-2 border border-white/20">
+                <button onClick={playing ? pause : play} className="text-sm px-3 py-1 rounded-full bg-white/10 hover:bg-white/20">{
+                  playing ? 'Pause' : 'Play'
+                }</button>
+                <button onClick={muted ? unmute : mute} className="text-sm px-3 py-1 rounded-full bg-white/10 hover:bg-white/20">{
+                  muted ? 'Unmute' : 'Mute'
+                }</button>
+              </div>
+            </div>
+
+            <style>{`
+              @media (hover: hover) and (pointer: fine) {
+                .song-wrap:hover .overlay-controls { opacity: 1; }
+              }
+              /* On touch devices, show a one-time center button to start with sound */
+              @media (hover: none) and (pointer: coarse) {
+                .tap-to-play { opacity: 1; }
+              }
+            `}</style>
+
+            {/* Mobile one-time CTA (hidden after tap) */}
+            <div className="tap-to-play pointer-events-auto absolute inset-0 flex items-center justify-center opacity-0 transition-opacity duration-200">
+              <button onClick={handleTapPlay} className="text-base px-4 py-2 rounded-full bg-black/60 border border-white/20">
+                Tap to play with sound ▶
+              </button>
+            </div>
           </div>
         );
       }
+
 
       function BirthdayCake(){
         const count = 24;
