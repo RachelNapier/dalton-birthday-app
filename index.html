@@ -157,26 +157,23 @@
         }
       }
       function SongEmbed(){
-        const [videoId, setVideoId] = React.useState(() => {
-          const sp = new URLSearchParams(window.location.search);
-          const q = sp.get("yt") || localStorage.getItem("dalton-yt") || "";
-          const id = getYouTubeIdFromUrl(q);
-          if(id) localStorage.setItem("dalton-yt", id);
-          return id;
-        });
-        if(!videoId){
-          return (
-            <div className="text-sm text-white/70">
-              No video set yet. Add <code>?yt=VIDEO_ID</code> or <code>?yt=https://www.youtube.com/watch?v=...</code> to the URL,
-              then reload. (It’ll auto‑play muted.)
-            </div>
-          );
-        }
-        const src = `https://www.youtube.com/embed/${videoId}?autoplay=1&mute=1&playsinline=1&rel=0`;
+        const DEFAULT_ID = 'sZj0_WHcc8o'; // baked-in link
+        const sp = new URLSearchParams(window.location.search);
+        // Optional override via ?yt=VIDEO_ID or full URL
+        const override = sp.get("yt");
+        let id = getYouTubeIdFromUrl(override) || DEFAULT_ID;
+        // Persist current choice so reloads keep it (unless a new ?yt= is provided)
+        try { localStorage.setItem("dalton-yt", id); } catch(e) {}
+        const src = `https://www.youtube.com/embed/${id}?autoplay=1&mute=1&playsinline=1&rel=0&start=1`;
         return (
           <div className="aspect-video rounded-2xl overflow-hidden border border-pink-500/30">
-            <iframe className="w-full h-full" src={src} title="YouTube player"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowFullScreen/>
+            <iframe
+              className="w-full h-full"
+              src={src}
+              title="YouTube player"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              allowFullScreen
+            />
           </div>
         );
       }
